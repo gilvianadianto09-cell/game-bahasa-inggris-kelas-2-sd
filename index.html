@@ -2,67 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Game Belajar Bahasa Inggris - Kelas 2 SD</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Belajar Bahasa Inggris - Kelas 2 SD</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #cbefff, #f0f8ff);
-            text-align: center;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #2c3e50;
-        }
-
-        .card {
-            background: white;
-            max-width: 400px;
-            margin: auto;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        button {
-            width: 100%;
-            margin: 8px 0;
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: #3498db;
-            color: white;
-        }
-
-        button:hover {
-            background: #2980b9;
-        }
-
-        button:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-        }
-
-        #result {
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .info {
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -71,132 +14,37 @@
 
 <div class="card">
 
-    <!-- HALAMAN AWAL -->
     <div id="startScreen">
         <p>Yuk belajar Bahasa Inggris dengan menyenangkan 😊</p>
         <button onclick="startGame()">Mulai Game</button>
     </div>
 
-    <!-- HALAMAN GAME -->
     <div id="gameScreen" class="hidden">
         <div class="info">
-            Soal <span id="current">1</span> dari <span id="total">4</span>  
-            | Skor: <span id="score">0</span>
+            Soal <span id="current">1</span> /
+            <span id="total">4</span> |
+            Skor: <span id="score">0</span>
         </div>
 
         <h2 id="question"></h2>
-
         <div id="options"></div>
 
         <p id="result"></p>
 
-        <button id="nextBtn" onclick="nextQuestion()" class="hidden">
+        <button id="nextBtn" class="hidden" onclick="nextQuestion()">
             Soal Berikutnya
         </button>
     </div>
 
-    <!-- HALAMAN SELESAI -->
     <div id="endScreen" class="hidden">
         <h2>🎉 Permainan Selesai!</h2>
-        <p>Skor Akhir kamu:</p>
+        <p>Skor Akhir Kamu:</p>
         <h3 id="finalScore"></h3>
         <button onclick="restartGame()">Main Lagi</button>
     </div>
 
 </div>
 
-<script>
-    const questions = [
-        { word: "CAT", correct: "Kucing", options: ["Kucing", "Anjing", "Burung"] },
-        { word: "DOG", correct: "Anjing", options: ["Kucing", "Anjing", "Ikan"] },
-        { word: "APPLE", correct: "Apel", options: ["Apel", "Jeruk", "Pisang"] },
-        { word: "BOOK", correct: "Buku", options: ["Meja", "Buku", "Pensil"] }
-    ];
-
-    let index = 0;
-    let score = 0;
-
-    const startScreen = document.getElementById("startScreen");
-    const gameScreen = document.getElementById("gameScreen");
-    const endScreen = document.getElementById("endScreen");
-
-    function startGame() {
-        startScreen.classList.add("hidden");
-        gameScreen.classList.remove("hidden");
-        shuffleQuestions();
-        loadQuestion();
-    }
-
-    function shuffleQuestions() {
-        questions.sort(() => Math.random() - 0.5);
-    }
-
-    function loadQuestion() {
-        const q = questions[index];
-
-        document.getElementById("question").innerHTML =
-            `Apa arti kata: <b>${q.word}</b>?`;
-
-        document.getElementById("current").innerText = index + 1;
-        document.getElementById("total").innerText = questions.length;
-        document.getElementById("score").innerText = score;
-
-        const optionsDiv = document.getElementById("options");
-        optionsDiv.innerHTML = "";
-
-        q.options.forEach(option => {
-            const btn = document.createElement("button");
-            btn.innerText = option;
-            btn.onclick = () => checkAnswer(option, btn);
-            optionsDiv.appendChild(btn);
-        });
-
-        document.getElementById("result").innerText = "";
-        document.getElementById("nextBtn").classList.add("hidden");
-    }
-
-    function checkAnswer(answer, button) {
-        const result = document.getElementById("result");
-        const buttons = document.querySelectorAll("#options button");
-
-        buttons.forEach(btn => btn.disabled = true);
-
-        if (answer === questions[index].correct) {
-            result.innerText = "✅ Jawaban Benar!";
-            result.style.color = "green";
-            score += 10;
-        } else {
-            result.innerText = "❌ Jawaban Salah";
-            result.style.color = "red";
-        }
-
-        document.getElementById("score").innerText = score;
-        document.getElementById("nextBtn").classList.remove("hidden");
-    }
-
-    function nextQuestion() {
-        index++;
-        if (index >= questions.length) {
-            finishGame();
-        } else {
-            loadQuestion();
-        }
-    }
-
-    function finishGame() {
-        gameScreen.classList.add("hidden");
-        endScreen.classList.remove("hidden");
-        document.getElementById("finalScore").innerText = score;
-    }
-
-    function restartGame() {
-        index = 0;
-        score = 0;
-        endScreen.classList.add("hidden");
-        startScreen.classList.remove("hidden");
-    }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
-
